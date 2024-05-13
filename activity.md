@@ -32,6 +32,10 @@ Approved PR: https://github.com/samuelribaric/REMLA-Project/pull/2
 A2
 
 -- Giovanni --
+Created PR: https://github.com/remla2024-team9/app-frontend/pull/1
+Created PR: https://github.com/remla2024-team9/app-service/pull/1
+Created PR: https://github.com/remla2024-team9/lib-version/pull/1
+Approved PR: https://github.com/remla2024-team9/model-service/pull/2
 
 
 -- Samuel --
