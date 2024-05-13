@@ -52,3 +52,7 @@ Approved PR: https://github.com/remla2024-team9/lib-ml/pull/4
 Approved: https://github.com/remla2024-team9/lib-ml/pull/5
 
 -- Daniel --
+
+Created PR: https://github.com/remla2024-team9/lib-ml/pull/6
+Created PR: https://github.com/remla2024-team9/lib-ml/pull/5
+Approved PR: https://github.com/remla2024-team9/model-service/pull/1
