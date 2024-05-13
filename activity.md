@@ -44,6 +44,11 @@ Created PR: https://github.com/remla2024-team9/model-service/pull/1
 Approved PR: https://github.com/remla2024-team9/model-training/pull/1
 
 -- Eren --
-
+Created PR: https://github.com/remla2024-team9/lib-ml/pull/1
+Created PR: https://github.com/remla2024-team9/lib-ml/pull/3
+Created PR: https://github.com/remla2024-team9/model-training/pull/1
+Created PR: https://github.com/remla2024-team9/model-training/pull/2
+Approved PR: https://github.com/remla2024-team9/lib-ml/pull/4
+Approved: https://github.com/remla2024-team9/lib-ml/pull/5
 
 -- Daniel --
