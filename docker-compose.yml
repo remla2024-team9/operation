@@ -1,0 +1,15 @@
+services:
+  model-service:
+    image: ghcr.io/remla2024-team9/model-service:latest
+    ports:
+      - "5000:5000"
+
+  app-service:
+    image: ghcr.io/remla2024-team9/app-service:latest
+    ports:
+      - "8080:8080"
+
+  app-frontend:
+    image: ghcr.io/remla2024-team9/app-frontend:latest
+    ports:
+      - "3000:3000"
