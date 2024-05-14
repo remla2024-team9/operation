@@ -1,23 +1,15 @@
 services:
-  # app-frontend:
-  #   image: node:18-alpine
-  #   build:
-  #     context: ./app-frontend
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - app-service
-
-  # app-service:
-  #   image: python:3.10-slim
-  #   build:
-  #     context: ./app-service
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - model-service
-
   model-service:
-    image: ghcr.io/remla2024-team9/model-service:0.1.1
+    image: ghcr.io/remla2024-team9/model-service:latest
     ports:
       - "5000:5000"
+
+  app-service:
+    image: ghcr.io/remla2024-team9/app-service:latest
+    ports:
+      - "8080:8080"
+
+  app-frontend:
+    image: ghcr.io/remla2024-team9/app-frontend:latest
+    ports:
+      - "3000:3000"
