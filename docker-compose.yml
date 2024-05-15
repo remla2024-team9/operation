@@ -3,13 +3,27 @@ services:
     image: ghcr.io/remla2024-team9/model-service:latest
     ports:
       - "5000:5000"
+    networks:
+      - app-network
 
   app-service:
     image: ghcr.io/remla2024-team9/app-service:latest
     ports:
       - "8080:8080"
+    depends_on:
+      - model-service
+    networks:
+      - app-network
 
   app-frontend:
     image: ghcr.io/remla2024-team9/app-frontend:latest
     ports:
       - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://app-service:8080
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
