@@ -1,15 +1,31 @@
+version: "3"
+
 services:
   model-service:
     image: ghcr.io/remla2024-team9/model-service:latest
     ports:
       - "5000:5000"
+    networks:
+      - my-net
 
   app-service:
     image: ghcr.io/remla2024-team9/app-service:latest
     ports:
       - "8080:8080"
+    depends_on:
+      - model-service
+    networks:
+      - my-net
 
   app-frontend:
     image: ghcr.io/remla2024-team9/app-frontend:latest
     ports:
       - "3000:3000"
+    depends_on:
+      - app-service
+    networks:
+      - my-net
+
+networks:
+  my-net:
+    driver: bridge
