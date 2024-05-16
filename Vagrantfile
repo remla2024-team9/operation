@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
         vb.memory = "4096"
       end
       # Setup private network, if required
-      node.vm.network "private_network", ip: "192.168.56.#{10+i}"
+      node.vm.network "private_network", ip: "192.168.57.#{10+i}"
     end
   end
 
@@ -23,6 +23,6 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
       vb.memory = "2048"
     end
-    controller.vm.network "private_network", ip: "192.168.56.10"
+    controller.vm.network "private_network", ip: "192.168.57.10"
   end
 end
