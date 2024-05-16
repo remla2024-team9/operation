@@ -1,7 +1,12 @@
-# operations
- The main entrypoint into the project
+# In order to run the application: #
 
-Unfortunately we were unable to build the docker compose file in time due to issues with GitHub tokens. The individual modules can be inspected and work as intended so the application can still be run through each individual module. 
+`docker compose pull`
 
-To check on our progress we refer to the `Docker` branch where we have started on the dokcer compose file. 
- 
+And then:
+
+`docker compose up`
+
+This will start the application and run the necessary docker containers,`app-frontend`, `app-service`, and `model-service`
+
+
+In order to test the app go to the url: http://localhost:3000/ once everything is running
