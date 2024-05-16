@@ -5,7 +5,7 @@ Unfortunately we were unable to build the docker compose file in time due to iss
 
 To check on our progress we refer to the `Docker` branch where we have started on the dokcer compose file. 
  
-## Vagrant Setup
+## Vagrant Setup (Windows)
 
 ### Prerequisites
 - **Windows Subsystem for Linux (WSL)**
