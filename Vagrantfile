@@ -23,6 +23,6 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
       vb.memory = "2048"
     end
-    controller.vm.network "private_network", ip: "192.168.57.10"
+    controller.vm.network "private_network", ip: "192.168.57.10", type: "dhcp"
   end
 end
