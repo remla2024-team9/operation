@@ -2,6 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+
+  # On macOS:
+  #config.vm.network "private_network", type: "dhcp"
+  # On Windows:
+  config.vm.network "private_network", ip: "192.168.57.2", netmask: "255.255.255.0"
+
   N = 2 # Number of worker nodes
   (1..N).each do |i|
     config.vm.define "node#{i}" do |node|
@@ -23,6 +29,12 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
       vb.memory = "2048"
     end
-    controller.vm.network "private_network", ip: "192.168.57.10", type: "dhcp"
+    
+    controller.vm.network "private_network", ip: "192.168.57.10"
+
+    config.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+      ansible.verbose = "vvv"
+    end
   end
 end
