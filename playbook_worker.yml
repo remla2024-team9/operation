@@ -1,0 +1,78 @@
+---
+- name: Set up Kubernetes Worker Nodes
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker’s official GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker Engine
+      ansible.builtin.apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install k3d
+      ansible.builtin.shell:
+        cmd: curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+      register: installation_result
+
+    - name: Check k3d version
+      ansible.builtin.command: k3d version
+      register: version_result
+      changed_when: false
+
+    - name: Print k3d version
+      ansible.builtin.debug:
+        msg: "{{ version_result.stdout_lines }}"
+    
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
+
+    - name: Ensure Docker group changes take effect
+      shell: newgrp docker || true
+    
+    - name: List k3d clusters
+      shell: k3d cluster list
+      register: cluster_list
+    - debug: var=cluster_list.stdout_lines
+
+    - name: Join the Kubernetes Cluster
+      shell: k3d node create myworker --cluster mycluster --role agent
+      register: join_output
+
+    - name: Verify node joined the cluster
+      shell: k3d node list
+      register: node_list
+
+    - name: Check if the worker node is listed
+      assert:
+        that:
+          - "'myworker' in node_list.stdout"
+        fail_msg: "The worker node 'myworker' did not join the cluster 'mycluster'."
+        success_msg: "The worker node 'myworker' has successfully joined the cluster 'mycluster'."

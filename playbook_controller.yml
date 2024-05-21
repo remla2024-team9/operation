@@ -1,0 +1,95 @@
+---
+- name: Set up the Kubernetes Controller Node
+  hosts: controller
+  become: yes
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker’s official GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker Engine
+      ansible.builtin.apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
+    
+    - name: Ensure Docker group changes take effect
+      shell: newgrp docker || true
+
+    - name: Install k3d
+      ansible.builtin.shell:
+        cmd: curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+      register: installation_result
+
+    - name: Check k3d version
+      ansible.builtin.command: k3d version
+      register: version_result
+      changed_when: false
+
+    - name: Print k3d version
+      ansible.builtin.debug:
+        msg: "{{ version_result.stdout_lines }}"
+
+    - name: Create a k3d cluster
+      shell: k3d cluster create mycluster --api-port 192.168.57.10:6550 -p "8080:80@loadbalancer" --agents 0
+
+    - name: Verify k3d cluster is running
+      shell: k3d cluster list
+      register: cluster_list
+
+    - name: Check if the k3d cluster is listed
+      assert:
+        that:
+          - "'mycluster' in cluster_list.stdout"
+        fail_msg: "The k3d cluster 'mycluster' is not running."
+        success_msg: "The k3d cluster 'mycluster' is successfully running."
+
+    # - name: Install Helm
+    #   shell: |
+    #     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    # - name: Add Helm repo for Prometheus
+    #   community.general.helm_repository:
+    #     name: prometheus-community
+    #     repo_url: https://prometheus-community.github.io/helm-charts
+    #     state: present
+
+    # - name: Update Helm repo
+    #   community.general.helm:
+    #     command: repo_update
+
+    # - name: Deploy Prometheus
+    #   shell: helm install prometheus stable/prometheus --set service.type=NodePort
+
+    # - name: Deploy Grafana
+    #   shell: helm install grafana stable/grafana --set service.type=NodePort
+
+    # - name: Deploy Kubernetes Dashboard
+    #   shell: helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
