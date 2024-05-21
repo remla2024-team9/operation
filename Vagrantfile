@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "controller" do |controller|
     controller.vm.box = "bento/ubuntu-24.04"
+    config.vm.box_version = "202404.26.0"
     controller.vm.hostname = "controller"
     controller.vm.provider "virtualbox" do |vb|
       vb.cpus = 2
@@ -17,6 +18,7 @@ Vagrant.configure("2") do |config|
     end
     controller.vm.network "private_network", ip: "192.168.57.10"
     controller.vm.provision "ansible_local" do |ansible|
+      ansible.compatibility_mode = "2.0"
       ansible.playbook = "playbook_controller.yml"
       ansible.verbose = "vvv"
     end
@@ -26,6 +28,7 @@ Vagrant.configure("2") do |config|
   (1..N).each do |i|
     config.vm.define "worker#{i}" do |worker|
       worker.vm.box = "bento/ubuntu-24.04"
+      config.vm.box_version = "202404.26.0"
       worker.vm.hostname = "worker#{i}"
       worker.vm.provider "virtualbox" do |vb|
         vb.cpus = 2
@@ -34,6 +37,7 @@ Vagrant.configure("2") do |config|
       # Setup private network, if required
       worker.vm.network "private_network", ip: "192.168.57.#{10+i}"
       worker.vm.provision "ansible_local" do |ansible|
+        ansible.compatibility_mode = "2.0"
         ansible.playbook = "playbook_worker.yml"
         ansible.groups = { "workers" => ["worker#{i}"] }
         ansible.verbose = "vvv"
