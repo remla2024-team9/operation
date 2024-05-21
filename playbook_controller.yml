@@ -1,54 +1,28 @@
 ---
-- hosts: controller
-  become: true
+- name: Setup k3s Kubernetes Cluster
+  hosts: controller
+  become: yes
   tasks:
-    - name: Update apt package index
-      apt:
-        update_cache: true
+    - name: Install k3s
+      shell: |
+        curl -sfL https://get.k3s.io | sh -
+      args:
+        executable: /bin/bash
 
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: latest
+    - name: Retrieve k3s join token
+      shell: "cat /var/lib/rancher/k3s/server/node-token"
+      register: k3s_token
 
-    - name: Add Vagrant user to Docker group
-      user:
-        name: vagrant
-        groups: docker
-        append: true
+    - name: Save k3s join token to shared folder
+      copy:
+        content: "{{ k3s_token.stdout }}"
+        dest: /vagrant_data/k3s_token.txt
 
-    - name: Install Minikube from latest release
-      apt:
-        deb: "https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb"
-        state: present
-    
-    - name: Get latest kubectl version
-      command: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
-      register: kubectl_version
+    - name: Get master node IP
+      shell: "hostname -I | awk '{print $2}'"
+      register: master_ip
 
-    - name: Download kubectl
-      get_url:
-        url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl"
-        dest: /usr/local/bin/kubectl
-        mode: '0755'
-    
-    - name: Refresh user groups
-      command: newgrp docker
-      become_user: vagrant
-    
-    - name: Start Minikube with Docker driver
-      command: minikube start --driver=docker
-      become_user: vagrant
-
-    - name: Enable Minikube ingress addon
-      command: minikube addons enable ingress
-      become_user: vagrant
-
-    - name: Verify Minikube cluster information
-      command: kubectl cluster-info
-      register: cluster_info_output
-      become_user: vagrant
-
-    - name: Display cluster information
-      debug:
-        var: cluster_info_output.stdout
+    - name: Save master IP to shared folder
+      copy:
+        content: "{{ master_ip.stdout }}"
+        dest: /vagrant_data/master_ip.txt

@@ -1,23 +1,28 @@
 ---
-- hosts: workers
-  become: true
+- name: Join k3s Kubernetes Cluster
+  hosts: workers
+  become: yes
   tasks:
-    - name: Update apt package index
-      apt:
-        update_cache: true
+    - name: Read k3s token from shared folder
+      command: cat /vagrant_data/k3s_token.txt
+      register: k3s_token
 
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: latest
+    - name: Read master IP from shared folder
+      command: cat /vagrant_data/master_ip.txt
+      register: master_ip
 
-    - name: Add Vagrant user to Docker group
-      user:
-        name: vagrant
-        groups: docker
-        append: true
+    - name: Debug k3s token and master IP
+      debug:
+        msg: "K3S_TOKEN={{ k3s_token.stdout }}, MASTER_IP={{ master_ip.stdout }}"
 
-    - name: Install Minikube from latest release
-      apt:
-        deb: "https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb"
-        state: present
+    - name: Join k3s cluster
+      shell: |
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ master_ip.stdout }}:6444 K3S_TOKEN={{ k3s_token.stdout }} sh -
+      args:
+        executable: /bin/bash
+      register: join_result
+    
+    - name: Print join result
+      debug:
+        var: join_result
+
