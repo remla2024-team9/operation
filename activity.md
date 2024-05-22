@@ -60,7 +60,8 @@ Approved PR: https://github.com/remla2024-team9/model-service/pull/1
 A3
 
 -- Giovanni --
-
+Created PR: https://github.com/remla2024-team9/operation/pull/6
+Approved PR: https://github.com/remla2024-team9/operation/pull/8#pullrequestreview-2072454705
 
 -- Samuel --
 Created PR: https://github.com/remla2024-team9/operation/pull/3
