@@ -7,10 +7,6 @@
       command: ping -c 4 192.168.57.10
       register: ping_result
 
-    - name: Display ping result
-      debug:
-        var: ping_result
-        
     - name: Verify connectivity to the controller
       wait_for:
         host: 192.168.57.10
@@ -19,6 +15,14 @@
         timeout: 15
         state: started
 
+    - name: Set K3S_URL environment variable
+      shell: echo "export K3S_URL=https://192.168.57.10:6443" >> /etc/profile
+
+    - name: Set K3S_TOKEN environment variable
+      shell: echo "export K3S_TOKEN=$(cat /vagrant/shared_folder/node-token)" >> /etc/profile
+
     - name: Install K3s agent
-      shell: >
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['controller']['ansible_default_ipv4']['address'] }}:6443 K3S_TOKEN=$(cat /vagrant/shared_folder/node-token) sh -
+      shell: curl -sfL https://get.k3s.io | sh -
+      environment:
+        K3S_URL: "https://192.168.57.10:6443"
+        K3S_TOKEN: "{{ lookup('file', '/vagrant/shared_folder/node-token') }}"
