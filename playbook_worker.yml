@@ -1,24 +1,17 @@
 ---
-- name: Set up K3s agent
+- name: Set up K3s worker nodes
   hosts: workers
   become: yes
+  vars:
+    k3s_server_url: "https://192.168.57.10:6443"
   tasks:
-    - name: Debug network connectivity
-      command: ping -c 4 192.168.57.10
-      register: ping_result
+  - name: Download K3s installation script
+    get_url:
+      url: https://get.k3s.io
+      dest: /tmp/k3s_install.sh
+      mode: '0755'
 
-    - name: Display ping result
-      debug:
-        var: ping_result
-        
-    - name: Verify connectivity to the controller
-      wait_for:
-        host: 192.168.57.10
-        port: 6443
-        delay: 5
-        timeout: 15
-        state: started
-
-    - name: Install K3s agent
-      shell: >
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['controller']['ansible_default_ipv4']['address'] }}:6443 K3S_TOKEN=$(cat /vagrant/shared_folder/node-token) sh -
+  - name: Install K3s worker
+    shell: K3S_URL={{ k3s_server_url }} K3S_TOKEN=$(cat /vagrant/shared_folder/node-token) /tmp/k3s_install.sh
+    args:
+      executable: /bin/bash

@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # On macOS:
   #config.vm.network "private_network", type: "dhcp"
   # On Windows:
-  config.vm.network "private_network", ip: "192.168.57.2", netmask: "255.255.255.0"
+  # config.vm.network "private_network", ip: "192.168.57.2", netmask: "255.255.255.0"
 
   config.vm.define "controller" do |controller|
     controller.vm.box = "bento/ubuntu-24.04"
