@@ -1,0 +1,17 @@
+---
+- name: Set up K3s worker nodes
+  hosts: workers
+  become: yes
+  vars:
+    k3s_server_url: "https://192.168.57.10:6443"
+  tasks:
+  - name: Download K3s installation script
+    get_url:
+      url: https://get.k3s.io
+      dest: /tmp/k3s_install.sh
+      mode: '0755'
+
+  - name: Install K3s worker
+    shell: K3S_URL={{ k3s_server_url }} K3S_TOKEN=$(cat /vagrant/shared_folder/node-token) /tmp/k3s_install.sh
+    args:
+      executable: /bin/bash
