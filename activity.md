@@ -62,6 +62,7 @@ A3
 -- Giovanni --
 Created PR: https://github.com/remla2024-team9/operation/pull/6
 Approved PR: https://github.com/remla2024-team9/operation/pull/8#pullrequestreview-2072454705
+Approved PR: https://github.com/remla2024-team9/operation/pull/9#pullrequestreview-2072470742
 
 -- Samuel --
 Created PR: https://github.com/remla2024-team9/operation/pull/3
