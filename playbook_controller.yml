@@ -1,28 +1,23 @@
 ---
-- name: Setup k3s Kubernetes Cluster
+- name: Set up K3s server
   hosts: controller
   become: yes
   tasks:
-    - name: Install k3s
+    - name: Install K3s server
+      shell: curl -sfL https://get.k3s.io | sh -
+
+    - name: Wait for K3s server to be ready
       shell: |
-        curl -sfL https://get.k3s.io | sh -
-      args:
-        executable: /bin/bash
+        until k3s kubectl get node; do
+          sleep 2
+        done
+      retries: 10
+      delay: 15
+      register: k3s_server_ready
+      until: k3s_server_ready is succeeded
 
-    - name: Retrieve k3s join token
-      shell: "cat /var/lib/rancher/k3s/server/node-token"
-      register: k3s_token
-
-    - name: Save k3s join token to shared folder
-      copy:
-        content: "{{ k3s_token.stdout }}"
-        dest: /vagrant_data/k3s_token.txt
-
-    - name: Get master node IP
-      shell: "hostname -I | awk '{print $2}'"
-      register: master_ip
-
-    - name: Save master IP to shared folder
-      copy:
-        content: "{{ master_ip.stdout }}"
-        dest: /vagrant_data/master_ip.txt
+    - name: Fetch K3s token
+      fetch:
+        src: /var/lib/rancher/k3s/server/node-token
+        dest: /vagrant/shared_folder/node-token
+        flat: yes

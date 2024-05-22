@@ -1,28 +1,24 @@
 ---
-- name: Join k3s Kubernetes Cluster
+- name: Set up K3s agent
   hosts: workers
   become: yes
   tasks:
-    - name: Read k3s token from shared folder
-      command: cat /vagrant_data/k3s_token.txt
-      register: k3s_token
+    - name: Debug network connectivity
+      command: ping -c 4 192.168.57.10
+      register: ping_result
 
-    - name: Read master IP from shared folder
-      command: cat /vagrant_data/master_ip.txt
-      register: master_ip
-
-    - name: Debug k3s token and master IP
+    - name: Display ping result
       debug:
-        msg: "K3S_TOKEN={{ k3s_token.stdout }}, MASTER_IP={{ master_ip.stdout }}"
+        var: ping_result
+        
+    - name: Verify connectivity to the controller
+      wait_for:
+        host: 192.168.57.10
+        port: 6443
+        delay: 5
+        timeout: 15
+        state: started
 
-    - name: Join k3s cluster
-      shell: |
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ master_ip.stdout }}:6444 K3S_TOKEN={{ k3s_token.stdout }} sh -
-      args:
-        executable: /bin/bash
-      register: join_result
-    
-    - name: Print join result
-      debug:
-        var: join_result
-
+    - name: Install K3s agent
+      shell: >
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['controller']['ansible_default_ipv4']['address'] }}:6443 K3S_TOKEN=$(cat /vagrant/shared_folder/node-token) sh -

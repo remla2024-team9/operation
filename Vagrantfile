@@ -8,11 +8,6 @@ Vagrant.configure("2") do |config|
   # On Windows:
   config.vm.network "private_network", ip: "192.168.57.2", netmask: "255.255.255.0"
 
-  # Ensure the shared folder exists
-  if !File.directory?("shared_folder")
-    Dir.mkdir("shared_folder")
-  end
-
   config.vm.define "controller" do |controller|
     controller.vm.box = "bento/ubuntu-24.04"
     config.vm.box_version = "202404.26.0"
@@ -22,7 +17,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "2048"
     end
     controller.vm.network "private_network", ip: "192.168.57.10"
-    controller.vm.synced_folder "shared_folder", "/vagrant_data"
+    controller.vm.synced_folder ".", "/vagrant", create: true
     controller.vm.provision "ansible_local" do |ansible|
       ansible.compatibility_mode = "2.0"
       ansible.playbook = "playbook_controller.yml"
@@ -41,7 +36,7 @@ Vagrant.configure("2") do |config|
         vb.memory = "4096"
       end
       worker.vm.network "private_network", ip: "192.168.57.#{10+i}"
-      worker.vm.synced_folder "shared_folder", "/vagrant_data"
+      worker.vm.synced_folder ".", "/vagrant", create: true
       worker.vm.provision "ansible_local" do |ansible|
         ansible.compatibility_mode = "2.0"
         ansible.playbook = "playbook_worker.yml"
