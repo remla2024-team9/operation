@@ -27,3 +27,19 @@
         src: /var/lib/rancher/k3s/server/node-token
         dest: /vagrant/shared_folder/node-token
         flat: yes
+
+    - name: Install Helm
+      shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Add Prometheus Repository
+      shell: helm repo add prom-repo https://prometheus-community.github.io/helm-charts
+
+    - name: Update Helm Repos
+      shell: helm repo update
+
+    - name: Install Prometheus
+      shell: helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
