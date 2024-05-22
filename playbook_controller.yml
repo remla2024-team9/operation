@@ -27,3 +27,25 @@
         src: /var/lib/rancher/k3s/server/node-token
         dest: /vagrant/shared_folder/node-token
         flat: yes
+
+    - name: Create .kube directory
+      file:
+        path: /home/vagrant/.kube
+        state: directory
+        mode: '0755'
+
+    - name: Set up kubectl for local use
+      shell: |
+        k3s kubectl config view --raw > /home/vagrant/.kube/config
+      args:
+        executable: /bin/bash
+
+    - name: Deploy application to Kubernetes
+      shell: kubectl apply -f /vagrant/kubernetes/
+      args:
+        executable: /bin/bash
+    - name: Deploy Ingress
+      shell: kubectl apply -f /vagrant/kubernetes/ingress.yml
+      args:
+        executable: /bin/bash
+
