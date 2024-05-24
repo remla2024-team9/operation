@@ -15,7 +15,10 @@ spec:
         app: app-frontend
     spec:
       containers:
-      - name: app-frontend
-        image: ghcr.io/remla2024-team9/app-frontend:latest
-        ports:
-        - containerPort: 3000
+        - name: app-frontend
+          image: ghcr.io/remla2024-team9/app-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_BACKEND_URL
+              value: http://app-service:8080
