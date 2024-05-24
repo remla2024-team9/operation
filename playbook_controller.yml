@@ -40,12 +40,36 @@
       args:
         executable: /bin/bash
 
+    - name: Label the node for ingress-nginx
+      shell: |
+        kubectl label nodes $(kubectl get nodes -o jsonpath='{.items[0].metadata.name}') ingress-ready=true kubernetes.io/os=linux
+      args:
+        executable: /bin/bash
+
+    - name: Create namespace for ingress-nginx
+      shell: kubectl create namespace ingress-nginx || true
+      args:
+        executable: /bin/bash
+
+    - name: Install NGINX Ingress Controller
+      shell: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+      args:
+        executable: /bin/bash
+
+    - name: Wait for NGINX Ingress Controller to be ready
+      shell: |
+        while [[ $(kubectl get pods -n ingress-nginx -l app.kubernetes.io/component=controller -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+          echo "waiting for ingress controller to be ready" && sleep 10;
+        done
+      args:
+        executable: /bin/bash
+
     - name: Deploy application to Kubernetes
       shell: kubectl apply -f /vagrant/kubernetes/
       args:
         executable: /bin/bash
+
     - name: Deploy Ingress
       shell: kubectl apply -f /vagrant/kubernetes/ingress.yml
       args:
         executable: /bin/bash
-

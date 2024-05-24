@@ -5,6 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
@@ -22,3 +23,10 @@ spec:
             name: app-service
             port:
               number: 8080
+      - path: /model
+        pathType: Prefix
+        backend:
+          service:
+            name: model-service
+            port:
+              number: 5000
