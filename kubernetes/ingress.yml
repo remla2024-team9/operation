@@ -16,8 +16,8 @@ spec:
               service:
                 name: app-frontend
                 port:
-                  number: 80
-          - path: /service
+                  number: 3000
+          - path: /api
             pathType: Prefix
             backend:
               service:
