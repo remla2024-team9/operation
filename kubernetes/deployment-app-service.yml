@@ -21,4 +21,4 @@ spec:
             - containerPort: 8080
           env:
             - name: MODEL_SERVICE_URL
-              value: "http://model-service.svc.cluster.local:5000"
+              value: "http://model-service.default.svc.cluster.local:5000"

@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: model-service
-  labels:
-    app: model-service
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -15,7 +14,7 @@ spec:
         app: model-service
     spec:
       containers:
-      - name: model-service
-        image: ghcr.io/remla2024-team9/model-service:latest
-        ports:
-        - containerPort: 5000
+        - name: model-service
+          image: ghcr.io/remla2024-team9/model-service:latest
+          ports:
+            - containerPort: 5000
