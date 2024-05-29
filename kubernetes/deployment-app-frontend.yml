@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-frontend
-          image: erenaydoslue/remla:latest
+          image: ghcr.io/remla2024-team9/app-frontend:latest
           ports:
             - containerPort: 3000
           volumeMounts:
