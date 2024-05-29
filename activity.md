@@ -92,6 +92,8 @@ Approved PR: https://github.com/remla2024-team9/model-training/pull/5
 
 
 -- Daniel --
+Created PR: https://github.com/remla2024-team9/model-training/pull/3
+Approved PR: 
 
 
 
