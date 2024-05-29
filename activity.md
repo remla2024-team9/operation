@@ -80,6 +80,8 @@ Approved PR: https://github.com/remla2024-team9/operation/pull/6
 
 A4
 -- Giovanni --
+Created PR: https://github.com/remla2024-team9/model-training/pull/4
+Approved PR: https://github.com/remla2024-team9/model-training/pull/3
 
 
 -- Samuel --
