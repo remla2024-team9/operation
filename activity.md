@@ -52,7 +52,33 @@ Approved PR: https://github.com/remla2024-team9/lib-ml/pull/4
 Approved: https://github.com/remla2024-team9/lib-ml/pull/5
 
 -- Daniel --
-
 Created PR: https://github.com/remla2024-team9/lib-ml/pull/6
 Created PR: https://github.com/remla2024-team9/lib-ml/pull/5
 Approved PR: https://github.com/remla2024-team9/model-service/pull/1
+
+
+A3
+
+-- Giovanni --
+Created PR: https://github.com/remla2024-team9/operation/pull/6
+Approved PR: https://github.com/remla2024-team9/operation/pull/8#pullrequestreview-2072454705
+Approved PR: https://github.com/remla2024-team9/operation/pull/9#pullrequestreview-2072470742
+
+-- Samuel --
+Created PR: https://github.com/remla2024-team9/operation/pull/3
+Approved PR: https://github.com/remla2024-team9/operation/pull/7
+
+-- Eren --
+Created PR: https://github.com/remla2024-team9/operation/pull/9/
+Approved PR: https://github.com/remla2024-team9/operation/pull/7
+Approved PR: https://github.com/remla2024-team9/operation/pull/8
+
+-- Daniel --
+Created PR: https://github.com/remla2024-team9/operation/pull/7
+Approved PR: https://github.com/remla2024-team9/operation/pull/6
+
+
+
+
+
+
