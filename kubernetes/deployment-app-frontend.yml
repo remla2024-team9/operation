@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-frontend
+  labels:
+    app: app-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-frontend
+  template:
+    metadata:
+      labels:
+        app: app-frontend
+    spec:
+      containers:
+        - name: app-frontend
+          image: ghcr.io/remla2024-team9/app-frontend:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: app-nginx-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      volumes:
+        - name: app-nginx-volume
+          configMap:
+            name: frontend-nginx-conf

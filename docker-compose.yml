@@ -16,6 +16,8 @@ services:
       - model-service
     networks:
       - my-net
+    environment:
+      - MODEL_SERVICE_URL=http://model-service:5000
 
   app-frontend:
     image: ghcr.io/remla2024-team9/app-frontend:latest
@@ -25,6 +27,8 @@ services:
       - app-service
     networks:
       - my-net
+    environment:
+      - REACT_APP_BACKEND_URL=http://app-service:8080
 
 networks:
   my-net:
