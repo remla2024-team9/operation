@@ -28,12 +28,11 @@
         dest: /vagrant/shared_folder/node-token
         flat: yes
 
-
     - name: Create .kube directory
       file:
         path: /home/vagrant/.kube
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Set up kubectl for local use
       shell: |
@@ -69,8 +68,7 @@
       shell: kubectl apply -f /vagrant/kubernetes/
       args:
         executable: /bin/bash
-       
-       
+
     - name: Install Helm
       shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
@@ -85,5 +83,9 @@
       args:
         executable: /bin/bash
       environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml       
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
+    # - name: Apply Grafana
+    #   shell: kubectl apply -f vagrant/Grafana/grafana.yml --namespace=my-grafana
+    #   args:
+    #     executable: /bin/bash
