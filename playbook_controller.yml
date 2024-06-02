@@ -87,3 +87,15 @@
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml       
 
+    - name: Add Grafana Repository
+      shell: helm repo add grafana https://grafana.github.io/helm-charts
+
+    - name: Update Helm Repos
+      shell: helm repo update
+
+    - name: Install Grafana
+      shell: helm install grafana grafana/grafana --namespace monitoring --set persistence.enabled=true --set adminPassword='YOUR_PASSWORD' --set service.type=LoadBalancer
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
