@@ -4,7 +4,7 @@ metadata:
   name: app-frontend
   labels:
     app: app-frontend
-    version: v1 # 
+    version: v1
 spec:
   replicas: 1
   selector:
@@ -29,3 +29,15 @@ spec:
         - name: app-nginx-volume
           configMap:
             name: frontend-nginx-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-frontend
+spec:
+  selector:
+    app: app-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
