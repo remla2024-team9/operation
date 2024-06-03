@@ -101,6 +101,10 @@ Approved PR: https://github.com/remla2024-team9/model-training/pull/8
 
 A5
 
+-- Giovanni --
+Created PR: https://github.com/remla2024-team9/operation/pull/15
+Approved PR: https://github.com/remla2024-team9/operation/pull/12
+
 --- Samuel ---
 Created PR: https://github.com/remla2024-team9/operation/pull/12
 Approved PR: https://github.com/remla2024-team9/operation/pull/13#pullrequestreview-2094896102
