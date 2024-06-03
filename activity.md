@@ -111,7 +111,8 @@ Created PR: https://github.com/remla2024-team9/operation/pull/13
 Approved PR: https://github.com/remla2024-team9/operation/pull/14#pullrequestreview-2094909126
 
 --- Eren ---
-
+Created PR: https://github.com/remla2024-team9/operation/pull/14
+Approved PR: https://github.com/remla2024-team9/operation/pull/12
 
 
 
