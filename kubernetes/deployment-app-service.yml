@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-service
-          image: ghcr.io/remla2024-team9/model-service:latest
+          image: ghcr.io/remla2024-team9/app-service:latest
           ports:
             - containerPort: 8080
           env:
