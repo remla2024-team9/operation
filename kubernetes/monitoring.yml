@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: showmetrics
+  namespace: monitoring
+  labels:
+    app: showmetrics
+spec:
+  containers:
+    - name: showmetrics
+      image: proksch/showmetrics:latest
+      ports:
+        - containerPort: 8080
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus-self
+  namespace: monitoring
+  labels:
+    app: prom-kube-prometheus-stack-prometheus
+spec:
+  endpoints:
+    - interval: 30s
+      port: web
+  selector:
+    matchLabels:
+      app: prom-kube-prometheus-stack-prometheus

@@ -2,6 +2,7 @@ Vagrant.configure("2") do |config|
   # Shared settings for all machines
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202404.26.0"
+  config.ssh.keep_alive = true
 
   # Controller configuration
   config.vm.define "controller" do |controller|

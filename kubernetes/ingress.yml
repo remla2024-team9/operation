@@ -17,25 +17,26 @@ spec:
                 name: app-frontend
                 port:
                   number: 3000
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: app-service
-                port:
-                  number: 8080
-          - path: /model
-            pathType: Prefix
-            backend:
-              service:
-                name: model-service
-                port:
-                  number: 5000
 
-          - path: /grafana
+          - path: /metrics
             pathType: Prefix
             backend:
               service:
-                name: grafana
+                name: kubernetes-dashboard
                 port:
-                  number: 3000
+                  number: 443
+
+          # - path: /api
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: app-service
+          #       port:
+          #         number: 8080
+          # - path: /model
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: model-service
+          #       port:
+          #         number: 5000

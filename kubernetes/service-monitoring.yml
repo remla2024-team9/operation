@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: monitoring
+  labels:
+    app: showmetrics-serv
+spec:
+  type: NodePort
+  selector:
+    app: showmetrics
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30002
+  selector:
+    app.kubernetes.io/name: grafana
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30003
+  selector:
+    app: kubernetes-dashboard-kong
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30004
+  selector:
+    app: prom-kube-prometheus-stack-prometheus

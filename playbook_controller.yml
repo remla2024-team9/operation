@@ -64,28 +64,43 @@
       args:
         executable: /bin/bash
 
-    - name: Deploy application to Kubernetes
-      shell: kubectl apply -f /vagrant/kubernetes/
-      args:
-        executable: /bin/bash
-
     - name: Install Helm
       shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
     - name: Add Prometheus Repository
       shell: helm repo add prom-repo https://prometheus-community.github.io/helm-charts
 
-    - name: Update Helm Repos
-      shell: helm repo update
-
     - name: Install Prometheus
-      shell: helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
-      args:
-        executable: /bin/bash
+      shell: |
+        helm repo update
+        helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
-    # - name: Apply Grafana
-    #   shell: kubectl apply -f vagrant/Grafana/grafana.yml --namespace=my-grafana
-    #   args:
-    #     executable: /bin/bash
+    - name: Add Grafana Repository
+      command: helm repo add grafana https://grafana.github.io/helm-charts
+
+    - name: Install Grafana
+      shell: |
+        helm repo update
+        helm install grafana grafana/grafana --namespace monitoring
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Add K8s Dashboard Repository
+      command: helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
+
+    - name: Install K8s Dashboard
+      shell: |
+        helm repo update
+        helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --namespace monitoring
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Deploy application to Kubernetes
+      shell: kubectl apply -f /vagrant/kubernetes/
+      args:
+        executable: /bin/bash
+
+    - name: Restart DNS
+      shell: kubectl -n kube-system rollout restart deployment coredns
