@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     controller.vm.network "forwarded_port", guest: 3000, host: 3000
     controller.vm.provider "virtualbox" do |vb|
       vb.cpus = 2
-      vb.memory = "2048"
+      vb.memory = "4096"
     end
     controller.vm.synced_folder ".", "/vagrant", create: true
     controller.vm.provision "ansible_local" do |ansible|
@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
       worker.vm.network "forwarded_port", guest: 3000, host: 3000 + i
       worker.vm.provider "virtualbox" do |vb|
         vb.cpus = 2
-        vb.memory = "4096"
+        vb.memory = "6144"
       end
       worker.vm.synced_folder ".", "/vagrant", create: true
       worker.vm.provision "ansible_local" do |ansible|
