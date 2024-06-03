@@ -108,7 +108,11 @@ Approved PR: https://github.com/remla2024-team9/operation/pull/13#pullrequestrev
 
 -- Daniel ---
 Created PR: https://github.com/remla2024-team9/operation/pull/13
-Approved PR: 
+Approved PR: https://github.com/remla2024-team9/operation/pull/14#pullrequestreview-2094909126
+
+--- Eren ---
+
+
 
 
 
