@@ -78,6 +78,28 @@ Created PR: https://github.com/remla2024-team9/operation/pull/7
 Approved PR: https://github.com/remla2024-team9/operation/pull/6
 
 
+A4
+-- Giovanni --
+Created PR: https://github.com/remla2024-team9/model-training/pull/4
+Approved PR: https://github.com/remla2024-team9/model-training/pull/3
+
+
+-- Samuel --
+Added PR: https://github.com/remla2024-team9/model-training/pull/6
+Approved PR: https://github.com/remla2024-team9/model-training/pull/5
+
+-- Eren --
+Created PR: https://github.com/remla2024-team9/app-frontend/pull/6
+Created PR: https://github.com/remla2024-team9/operation/pull/10
+Created PR: https://github.com/remla2024-team9/model-training/pull/5
+Approved PR: https://github.com/remla2024-team9/model-training/pull/6
+Approved PR: https://github.com/remla2024-team9/model-training/pull/7
+
+-- Daniel --
+Created PR: https://github.com/remla2024-team9/model-training/pull/3
+Approved PR: https://github.com/remla2024-team9/model-training/pull/8
+
+
 
 
 
