@@ -99,6 +99,19 @@ Approved PR: https://github.com/remla2024-team9/model-training/pull/7
 Created PR: https://github.com/remla2024-team9/model-training/pull/3
 Approved PR: https://github.com/remla2024-team9/model-training/pull/8
 
+A5
+
+--- Samuel ---
+Created PR: https://github.com/remla2024-team9/operation/pull/12
+Approved PR: https://github.com/remla2024-team9/operation/pull/13#pullrequestreview-2094896102
+
+
+-- Daniel ---
+Created PR: https://github.com/remla2024-team9/operation/pull/13
+Approved PR: 
+
+
+
 
 
 
