@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-virtualservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - app-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: app-frontend
+        port:
+          number: 3000
+  - match:
+    - uri:
+        prefix: "/api"
+    route:
+    - destination:
+        host: app-service
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: "/model"
+    route:
+    - destination:
+        host: model-service
+        port:
+          number: 5000
