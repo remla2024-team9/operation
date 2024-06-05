@@ -28,71 +28,83 @@
         dest: /vagrant/shared_folder/node-token
         flat: yes
 
-    - name: Create .kube directory
-      file:
-        path: /home/vagrant/.kube
-        state: directory
-        mode: '0755'
-
-    - name: Set up kubectl for local use
+    - name: Create .kube directories and set up kubectl for local and root use
       shell: |
+        mkdir -p /home/vagrant/.kube /root/.kube
         k3s kubectl config view --raw > /home/vagrant/.kube/config
+        cp /home/vagrant/.kube/config /root/.kube/config
+        chmod 644 /root/.kube/config
       args:
         executable: /bin/bash
 
-    - name: Install Helm
-      shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-    - name: Add Prometheus Repository
-      shell: helm repo add prom-repo https://prometheus-community.github.io/helm-charts
-
-    - name: Update Helm Repos
-      shell: helm repo update
-
-    - name: Install Prometheus
-      shell: helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-
-    - name: Download Istio
-      shell: curl -L https://istio.io/downloadIstio | sh -
+    - name: Install Istio and setup Kiali
+      shell: |
+        export KUBECONFIG="/root/.kube/config"
+        curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.22.0 sh -
+        cd istio-1.22.0
+        export PATH="$PATH:$(pwd)/bin"
+        istioctl x precheck
+        istioctl install --set profile=demo -y
+        kubectl apply -f samples/addons
+        until kubectl -n istio-system get deployment kiali; do echo "Waiting for Kiali to deploy..."; sleep 10; done
+        kubectl -n istio-system rollout status deployment/kiali --timeout=180s
+        kubectl get svc kiali-nodeport -n istio-system || kubectl -n istio-system expose deployment kiali --type=NodePort --name=kiali-nodeport --port=20001
       args:
         executable: /bin/bash
 
-    - name: Install Istio
-      shell: istio-1.22.0/bin/istioctl install --set profile=demo -y
-      args:
-        chdir: /vagrant
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    # - name: Install Helm
+    #   shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-    - name: Label the namespace for Istio injection
-      shell: kubectl label namespace default istio-injection=enabled
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    # - name: Add Prometheus Repository
+    #   shell: helm repo add prom-repo https://prometheus-community.github.io/helm-charts
 
-    - name: Deploy application to Kubernetes
-      shell: kubectl apply -f /vagrant/kubernetes/
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    # - name: Update Helm Repos
+    #   shell: helm repo update
 
-    - name: Apply Istio Gateway
-      shell: kubectl apply -f /vagrant/kubernetes/gateway.yml
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    # - name: Install Prometheus
+    #   shell: helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
+    #   args:
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
-    - name: Apply Istio Virtual Service
-      shell: kubectl apply -f /vagrant/kubernetes/virtualservice.yml
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    # - name: Download Istio
+    #   shell: curl -L https://istio.io/downloadIstio | sh -
+    #   args:
+    #     executable: /bin/bash
+
+    # - name: Install Istio
+    #   shell: istio-1.22.0/bin/istioctl install --set profile=demo -y
+    #   args:
+    #     chdir: /vagrant
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    # - name: Label the namespace for Istio injection
+    #   shell: kubectl label namespace default istio-injection=enabled
+    #   args:
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    # - name: Deploy application to Kubernetes
+    #   shell: kubectl apply -f /vagrant/kubernetes/
+    #   args:
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    # - name: Apply Istio Gateway
+    #   shell: kubectl apply -f /vagrant/kubernetes/gateway.yml
+    #   args:
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    # - name: Apply Istio Virtual Service
+    #   shell: kubectl apply -f /vagrant/kubernetes/virtualservice.yml
+    #   args:
+    #     executable: /bin/bash
+    #   environment:
+    #     KUBECONFIG: /etc/rancher/k3s/k3s.yaml
