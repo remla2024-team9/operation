@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratelimit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratelimit
+  template:
+    metadata:
+      labels:
+        app: ratelimit
+    spec:
+      containers:
+        - name: ratelimit
+          image: envoyproxy/ratelimit:v1.4.0
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: ratelimit-config-volume
+              mountPath: /data/ratelimit/config
+      volumes:
+        - name: ratelimit-config-volume
+          configMap:
+            name: ratelimit-config

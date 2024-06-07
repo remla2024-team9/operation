@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ratelimit-config
+data:
+  config.yaml: |
+    domain: rate_limit_domain
+    descriptors:
+      - key: generic_key
+        value: generic_value
+        rate_limit:
+          unit: minute
+          requests_per_unit: 10
