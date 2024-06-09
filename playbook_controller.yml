@@ -40,24 +40,8 @@
       args:
         executable: /bin/bash
 
-    - name: Install Helm
-      shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-    - name: Add Prometheus Repository
-      shell: helm repo add prom-repo https://prometheus-community.github.io/helm-charts
-
-    - name: Update Helm Repos
-      shell: helm repo update
-
-    - name: Install Prometheus
-      shell: helm install prom prom-repo/kube-prometheus-stack --namespace monitoring --create-namespace
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-
     - name: Download Istio
-      shell: curl -L https://istio.io/downloadIstio | sh -
+      shell: curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.22.0 sh -
       args:
         executable: /bin/bash
 
@@ -71,6 +55,51 @@
 
     - name: Label the namespace for Istio injection
       shell: kubectl label namespace default istio-injection=enabled
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    
+    - name: Install Kiali
+      shell: kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    
+    - name: Install Prometheus
+      shell: kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install Grafana
+      shell: kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/grafana.yaml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+    
+    - name: Expose Kiali via NodePort
+      shell: |
+        kubectl expose service kiali --type=NodePort --name=kiali-nodeport --port=20001 -n istio-system --dry-run=client -o yaml | kubectl apply -f -
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Expose Grafana via NodePort
+      shell: |
+        kubectl expose service grafana --type=NodePort --name=grafana-nodeport --port=3000 -n istio-system --dry-run=client -o yaml | kubectl apply -f -
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Expose Prometheus via NodePort
+      shell: |
+        kubectl expose service prometheus --type=NodePort --name=prometheus-nodeport --port=9090 -n istio-system --dry-run=client -o yaml | kubectl apply -f -
       args:
         executable: /bin/bash
       environment:
