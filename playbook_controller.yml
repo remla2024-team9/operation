@@ -59,14 +59,14 @@
         executable: /bin/bash
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-    
+
     - name: Install Kiali
       shell: kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml
       args:
         executable: /bin/bash
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-    
+
     - name: Install Prometheus
       shell: kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml
       args:
@@ -80,7 +80,7 @@
         executable: /bin/bash
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-    
+
     - name: Expose Kiali via NodePort
       shell: |
         kubectl expose service kiali --type=NodePort --name=kiali-nodeport --port=20001 -n istio-system --dry-run=client -o yaml | kubectl apply -f -
@@ -121,6 +121,36 @@
 
     - name: Apply Istio Virtual Service
       shell: kubectl apply -f /vagrant/kubernetes/virtualservice.yml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install Prometheus Operator CRDs
+      shell: |
+        kubectl apply --validate=false -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+        kubectl apply --validate=false -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply Prometheus Configuration
+      shell: kubectl apply -f /vagrant/monitoring/prometheus-config.yml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply Prometheus Rules
+      shell: kubectl apply -f /vagrant/monitoring/prometheus-rule.yml
+      args:
+        executable: /bin/bash
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply Grafana Dashboard Configuration
+      shell: kubectl apply -f /vagrant/monitoring/grafana-dashboard-config.yml
       args:
         executable: /bin/bash
       environment:

@@ -21,6 +21,7 @@ spec:
           image: ghcr.io/remla2024-team9/app-service:latest
           ports:
             - containerPort: 8080
+            - containerPort: 8000 # port for metrics
           env:
             - name: MODEL_SERVICE_URL
               value: "http://model-service.default.svc.cluster.local:5000"

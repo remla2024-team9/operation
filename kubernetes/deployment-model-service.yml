@@ -21,3 +21,4 @@ spec:
           image: ghcr.io/remla2024-team9/model-service:v0.1.11
           ports:
             - containerPort: 5000
+            - containerPort: 8000 # port for metrics
