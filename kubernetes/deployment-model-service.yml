@@ -18,7 +18,13 @@ spec:
     spec:
       containers:
         - name: model-service
-          image: erenaydoslue/model-service:latest #ghcr.io/remla2024-team9/model-service:v0.1.11
+          image: ghcr.io/remla2024-team9/model-service:v0.1.11
           ports:
             - containerPort: 5000
             - containerPort: 8000 # port for metrics
+            livenessProbe:
+              httpGet:
+                path: /metrics
+                port: 5000
+              initialDelaySeconds: 10
+              periodSeconds: 10

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: app-service
-          image: samuelribaric/app-service:latest # Use the correct image tag
+          image: ghcr.io/remla2024-team9/app-service:latest
           ports:
             - containerPort: 8080
             - containerPort: 8000 # port for metrics
