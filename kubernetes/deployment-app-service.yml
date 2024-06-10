@@ -18,10 +18,16 @@ spec:
     spec:
       containers:
         - name: app-service
-          image: ghcr.io/remla2024-team9/app-service:latest
+          image: samuelribaric/app-service:latest # Use the correct image tag
           ports:
             - containerPort: 8080
             - containerPort: 8000 # port for metrics
           env:
             - name: MODEL_SERVICE_URL
               value: "http://model-service.default.svc.cluster.local:5000"
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10

@@ -23,3 +23,9 @@ spec:
           ports:
             - containerPort: 5000
             - containerPort: 8000 # port for metrics
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
