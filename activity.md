@@ -118,6 +118,19 @@ Approved PR: https://github.com/remla2024-team9/operation/pull/14#pullrequestrev
 Created PR: https://github.com/remla2024-team9/operation/pull/14
 Approved PR: https://github.com/remla2024-team9/operation/pull/12
 
+A5
+
+-- Giovanni --
+Created PR: [https://github.com/remla2024-team9/operation/pull/15](https://github.com/remla2024-team9/operation/pull/17)
+Approved PR: https://github.com/remla2024-team9/operation/pull/19
+
+--- Samuel ---
+
+
+-- Daniel ---
+
+--- Eren ---
+
 
 
 
