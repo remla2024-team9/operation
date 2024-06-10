@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: app-virtualservice
+  namespace: default
 spec:
   hosts:
   - "*"
@@ -10,7 +11,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: "/"
+        prefix: /
     route:
     - destination:
         host: app-frontend
@@ -18,7 +19,7 @@ spec:
           number: 3000
   - match:
     - uri:
-        prefix: "/api"
+        prefix: /api
     route:
     - destination:
         host: app-service
@@ -26,7 +27,7 @@ spec:
           number: 8080
   - match:
     - uri:
-        prefix: "/model"
+        prefix: /model
     route:
     - destination:
         host: model-service

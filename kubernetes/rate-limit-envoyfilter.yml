@@ -1,4 +1,3 @@
-# rate-limit-envoyfilter.yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -30,7 +29,7 @@ spec:
               timeout: 0.25s
   - applyTo: CLUSTER
     match:
-      cluster: 
+      cluster:
         service: ratelimit.istio-system.svc.cluster.local
     patch:
       operation: ADD
