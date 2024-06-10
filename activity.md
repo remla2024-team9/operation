@@ -125,7 +125,8 @@ Created PR: [https://github.com/remla2024-team9/operation/pull/15](https://githu
 Approved PR: https://github.com/remla2024-team9/operation/pull/19
 
 --- Samuel ---
-
+Created PR: https://github.com/remla2024-team9/operation/pull/20
+Approved PR: https://github.com/remla2024-team9/operation/pull/17
 
 -- Daniel ---
 
