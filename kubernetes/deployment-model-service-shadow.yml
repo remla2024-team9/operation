@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: model-service
+  name: model-service-shadow
   labels:
     app: model-service
-    version: v1
+    version: shadow
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: model-service
+      version: shadow
   template:
     metadata:
       labels:
         app: model-service
-        version: v1
+        version: shadow
     spec:
       containers:
         - name: model-service
-          image: ghcr.io/remla2024-team9/model-service:v0.1.11
+          image: ghcr.io/remla2024-team9/model-service:latest
           ports:
             - containerPort: 5000
