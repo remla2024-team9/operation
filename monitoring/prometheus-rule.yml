@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: example-rules
+  namespace: istio-system
+spec:
+  groups:
+  - name: example
+    rules:
+    - alert: HighRequestRate
+      expr: rate(request_count[1m]) > 15
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: High request rate detected
+        description: "More than 15 requests per minute for the last 2 minutes."

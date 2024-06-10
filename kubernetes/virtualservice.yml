@@ -32,3 +32,7 @@ spec:
         host: model-service
         port:
           number: 5000
+    mirror:
+      host: model-service-shadow
+      port:
+        number: 5000
