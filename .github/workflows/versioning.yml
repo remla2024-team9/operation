@@ -1,0 +1,48 @@
+name: Bump Version
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          # Extract the current version
+          current_version=$(poetry version -s)
+          # Bump the version (patch)
+          new_version=$(poetry version patch | awk '{print $2}')
+          # Update the version in pyproject.toml
+          poetry version $new_version
+        env:
+          POETRY_VERSION: ${{ steps.bump_version.outputs.new_version }}
+
+      - name: Commit and push version bump
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add pyproject.toml
+          git commit -m "Bump version to ${{ env.POETRY_VERSION }}"
+          git push origin main
