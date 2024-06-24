@@ -19,13 +19,13 @@ spec:
     spec:
       containers:
         - name: model-service
-          image: ghcr.io/remla2024-team9/model-service:v0.1.17
+          image: ghcr.io/remla2024-team9/model-service:v0.1.20
           ports:
             - containerPort: 5000
-            - containerPort: 8001 # port for metrics
+            - containerPort: 8002 # port for metrics
           livenessProbe:
             httpGet:
               path: /metrics
-              port: 8001
+              port: 8002
             initialDelaySeconds: 10
             periodSeconds: 10
