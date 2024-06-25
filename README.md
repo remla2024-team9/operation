@@ -51,7 +51,13 @@ First, SSH into the controller:
 vagrant ssh controller
 ```
 
-Then, run the following commands to get the links for Grafana, Kiali, and Prometheus:
+Then, run the following commands to get the links for App-Frontend, Grafana, Kiali, and Prometheus:
+
+- **Get App-Frontend Link**:
+  ```sh
+  kubectl get svc app-frontend -n default
+  ```
+  - **URL**: `http://<external-ip>:<port>`
 
 - **Get Grafana Link**:
   ```sh
