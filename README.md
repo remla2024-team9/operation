@@ -121,6 +121,27 @@ All Kubernetes configuration files listed below are applied as part of task 8 of
 | **service-model-service.yml**  | Defines a ClusterIP service for the primary model service.                                        |
 | **virtualservice.yml**         | Configures routing rules using Istio VirtualService to direct traffic to the appropriate services.|
 
+## Monitoring with Grafana Dashboard
+
+![alt text](docs/grafana.png)
+
+### Key Metrics
+1. **HTTP Requests per Second**: Measures the total number of HTTP requests received per second. This metric helps in understanding the current user load and demand on the application.
+2. **Average Request Latency**: Tracks the average time taken to respond to HTTP requests. This metric is crucial for assessing the efficiency and performance of the application's backend.
+3. **HTTP Error Rate**: Displays the percentage of HTTP requests that resulted in errors, specifically focusing on 5xx server errors. This metric is vital for detecting problems in the application that might require immediate attention.
+
+### Loading the Dashboard in Grafana
+To load the custom dashboard into Grafana, follow these steps:
+
+1. **Access Grafana**: Log in to the Grafana UI.
+
+2. **Import Dashboard**:
+   - Navigate to the "+" icon on the left sidebar and select "Import".
+   - Click 'Upload JSON file' and select the `grafana-dashboard.json` file located in the project at `/monitoring/`.
+   - Click 'Import' to load the dashboard.
+
+This will add the custom dashboard to your Grafana instance, allowing you to monitor the metrics specified.
+
 ## Troubleshooting
 
 ### Key Commands
