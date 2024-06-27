@@ -6,13 +6,13 @@ This repository contains all information about running the application and opera
 
 This project relies on several other repositories for various services and libraries. Below are the links to these repositories:
 
-- **Operation Repo**: [operation](https://github.com/remla2024-team9/operation)
+- **Operation**: [here](https://github.com/remla2024-team9/operation)
 - **Model Service**: [model-service](https://github.com/remla2024-team9/model-service)
 - **App Frontend**: [app-frontend](https://github.com/remla2024-team9/app-frontend)
 - **App Service**: [app-service](https://github.com/remla2024-team9/app-service)
 - **Model Training**: [model-training](https://github.com/remla2024-team9/model-training)
-- **Library for Machine Learning**: [lib-ml](https://github.com/remla2024-team9/lib-ml)
-- **Library for Version Management**: [lib-version](https://github.com/remla2024-team9/lib-version)
+- **lib-ml**: [lib-ml](https://github.com/remla2024-team9/lib-ml)
+- **lib-version**: [lib-version](https://github.com/remla2024-team9/lib-version)
 
 ## Prerequisites
 
