@@ -20,6 +20,27 @@ This project relies on several other repositories for various services and libra
 - **Vagrant**
 - **VirtualBox**
 
+## Running the application with Docker Compose
+
+To run the entire application stack using Docker Compose, follow these steps:
+
+1. **Ensure Docker and Docker Compose are installed on your machine**. You can find installation instructions [here for Docker](https://docs.docker.com/get-docker/) and [here for Docker Compose](https://docs.docker.com/compose/install/).
+
+2. **Clone the repository** 
+   ```sh
+   git clone https://github.com/remla2024-team9/operation.git
+3. **Initalize**
+   This command will start all the services defined in the docker-compose.yml file in detached mode.
+   ```sh
+   docker-compose up -d
+   
+4. **Access app-frontend**
+To access  the app's frontend application, go to *[localhost:3000](http://localhost:3000)*
+
+5. **Stop the services**
+   ```sh
+   docker-compose down
+
 ## Vagrant Setup (Windows)
 
 ### Setup
