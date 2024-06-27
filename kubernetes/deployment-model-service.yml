@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels:
       app: model-service
+      version: v1
   template:
     metadata:
       labels:
@@ -18,13 +19,13 @@ spec:
     spec:
       containers:
         - name: model-service
-          image: ghcr.io/remla2024-team9/model-service:v0.1.11
+          image: ghcr.io/remla2024-team9/model-service:v0.1.22
           ports:
             - containerPort: 5000
-            - containerPort: 8000 # port for metrics
-            livenessProbe:
-              httpGet:
-                path: /metrics
-                port: 5000
-              initialDelaySeconds: 10
-              periodSeconds: 10
+            - containerPort: 8002 # port for metrics
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 8002
+            initialDelaySeconds: 10
+            periodSeconds: 10

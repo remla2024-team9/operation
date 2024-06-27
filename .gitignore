@@ -1,3 +1,5 @@
 /.vagrant
 /shared_folder
 istio-1.22.0/
+test.py
+/models

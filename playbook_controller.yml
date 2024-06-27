@@ -148,10 +148,3 @@
         executable: /bin/bash
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-
-    - name: Apply Grafana Dashboard Configuration
-      shell: kubectl apply -f /vagrant/monitoring/grafana-dashboard-config.yml
-      args:
-        executable: /bin/bash
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
